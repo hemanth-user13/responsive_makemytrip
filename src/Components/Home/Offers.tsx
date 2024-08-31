@@ -5,7 +5,8 @@ import HotelCard from "../Pages/Hotels/Hotelcard";
 import HolidayCard from "../Pages/HolidayPackage/HolidayCard";
 import TrainCard from "../Pages/Trains/TrainCard";
 import CabCard from "../Pages/Cabs/CabCard";
-import BankOfferCard from "../Pages/TravelInsurance/InsuraceCard";
+// import BankOfferCard from "../Pages/TravelInsurance/InsuraceCard";
+import BankOfferCard from "../../data";
 
 type OfferType =
   | "flights"
@@ -62,55 +63,36 @@ const Offers: React.FC = () => {
           className="flex flex-wrap gap-4 mb-6 pb-2 border-b-4 border-b-stone-900"
           style={{ marginLeft: "200px", position: "absolute", top: "110px" }}
         >
-          <a
-            href="#alloffers"
+          <button
             className="btn"
             onClick={() => dispatch({ type: "alloffers" })}
           >
             All Offers
-          </a>
-          <a
-            href="#flights"
-            className="btn"
-            onClick={() => dispatch({ type: "flights" })}
-          >
+          </button>
+          <button className="btn" onClick={() => dispatch({ type: "flights" })}>
             Flights
-          </a>
-          <a
-            href="#hotels"
-            className="btn"
-            onClick={() => dispatch({ type: "hotels" })}
-          >
+          </button>
+          <button className="btn" onClick={() => dispatch({ type: "hotels" })}>
             Hotels
-          </a>
-          <a
-            href="#holidays"
+          </button>
+          <button
             className="btn"
             onClick={() => dispatch({ type: "holidays" })}
           >
             Holidays
-          </a>
-          <a
-            href="#trains"
-            className="btn"
-            onClick={() => dispatch({ type: "trains" })}
-          >
+          </button>
+          <button className="btn" onClick={() => dispatch({ type: "trains" })}>
             Trains
-          </a>
-          <a
-            href="#cabs"
-            className="btn"
-            onClick={() => dispatch({ type: "cabs" })}
-          >
+          </button>
+          <button className="btn" onClick={() => dispatch({ type: "cabs" })}>
             Cabs
-          </a>
-          <a
-            href="#bank-offers"
+          </button>
+          <button
             className="btn"
             onClick={() => dispatch({ type: "bank-offers" })}
           >
             Bank Offers
-          </a>
+          </button>
         </div>
         <div className="mt-8">{renderOfferContent()}</div>
       </div>
