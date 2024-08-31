@@ -21,7 +21,7 @@ const Categories: React.FC<CategoriesProps> = ({ styles }) => {
       <div className="bg-white py-6 px-8 flex justify-between items-center gap-4 sm:gap-6 md:gap-8 shadow-md rounded-3xl max-w-4xl mx-auto">
         <div className="flex flex-col items-center space-y-2">
           <Link to="/">
-            <FaPlane className="text-blue-500 text-3xl sm:text-4xl" />
+            <FaPlane className="text-blue-500 text-center text-3xl sm:text-4xl" />
             <span className="text-xs sm:text-sm md:text-base font-medium">
               Flights
             </span>
@@ -30,7 +30,7 @@ const Categories: React.FC<CategoriesProps> = ({ styles }) => {
 
         <div className="flex flex-col items-center space-y-2">
           <Link to="/hotels">
-            <FaHotel className="text-blue-500 text-3xl sm:text-4xl" />
+            <FaHotel className="text-blue-500 text-3xl sm:text-4xl ml-1" />
             <span className="text-xs sm:text-sm md:text-base font-medium">
               Hotels
             </span>
@@ -39,7 +39,7 @@ const Categories: React.FC<CategoriesProps> = ({ styles }) => {
 
         <div className="flex flex-col items-center space-y-2">
           <Link to="/homestays">
-            <FaHome className="text-blue-500 text-3xl sm:text-4xl" />
+            <FaHome className="text-blue-500 text-3xl sm:text-4xl ml-4" />
             <span className="text-xs sm:text-sm md:text-base font-medium">
               Homestays
             </span>
@@ -48,7 +48,7 @@ const Categories: React.FC<CategoriesProps> = ({ styles }) => {
 
         <div className="flex flex-col items-center space-y-2">
           <Link to="/Holidaypackage">
-            <FaUmbrellaBeach className="text-blue-500 text-3xl sm:text-4xl" />
+            <FaUmbrellaBeach className="text-blue-500 text-3xl sm:text-4xl ml-3" />
             <span className="text-xs sm:text-sm md:text-base font-medium">
               Holidays
             </span>
@@ -84,7 +84,7 @@ const Categories: React.FC<CategoriesProps> = ({ styles }) => {
 
         <div className="flex flex-col items-center space-y-2">
           <Link to="/insurance">
-            <FaShieldAlt className="text-blue-500 text-3xl sm:text-4xl" />
+            <FaShieldAlt className="text-blue-500 text-3xl sm:text-4xl ml-10" />
             <span className="text-xs sm:text-sm md:text-base font-medium">
               Travel Insurance
             </span>

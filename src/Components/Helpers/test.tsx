@@ -1,11 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const test = () => {
-  return (
-    <div className='absolute -top-32 left-56'>
-      
-    </div>
-  )
-}
+  return <div className="absolute i top- left-64"></div>;
+};
 
-export default test
+export default test;
