@@ -1,0 +1,17 @@
+.gradient-button {
+  background: linear-gradient(90deg, #ff6f61 0%, #debb00 100%);
+  border: none;
+  cursor: pointer;
+  transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+}
+
+.gradient-button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  opacity: 0.9;
+}
+
+.gradient-button:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.3);
+}

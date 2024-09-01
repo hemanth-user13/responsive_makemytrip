@@ -27,8 +27,8 @@ const AlloffersCards = () => {
     <div className="p-4">
       <Carousel
         title="Our Offers"
-        items={carouselItems}
-        visibleItems={3} // Adjust based on the number of visible items
+        // items={carouselItems}
+        // visibleItems={3}
       />
     </div>
   );

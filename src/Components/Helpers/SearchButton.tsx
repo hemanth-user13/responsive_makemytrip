@@ -1,15 +1,15 @@
 import React from "react";
 
-interface SerachButtonProps {
+interface SearchButtonProps {
   buttonname?: string;
 }
 
-const Searchbutton: React.FC<SerachButtonProps> = ({ buttonname }) => {
+const SearchButton: React.FC<SearchButtonProps> = ({ buttonname }) => {
   return (
     <div style={{ position: "absolute", left: "480px" }}>
       <button
         type="submit"
-        className="bg-blue-500 text-white font-serif py-2 px-4 rounded-full w-44 text-2xl "
+        className="bg-gradient-to-r from-blue-400 via-blue-500 to-blue-600 text-white font-serif py-2 px-4 rounded-full w-44 text-2xl transition-transform transform hover:scale-105 hover:shadow-xl hover:bg-gradient-to-l from-blue-600 via-blue-500 to-blue-400"
       >
         {buttonname}
       </button>
@@ -17,4 +17,4 @@ const Searchbutton: React.FC<SerachButtonProps> = ({ buttonname }) => {
   );
 };
 
-export default Searchbutton;
+export default SearchButton;
