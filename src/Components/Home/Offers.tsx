@@ -7,6 +7,8 @@ import TrainCard from "../Pages/Trains/TrainCard";
 import CabCard from "../Pages/Cabs/CabCard";
 // import BankOfferCard from "../Pages/TravelInsurance/InsuraceCard";
 import BankOfferCard from "../../data";
+// import AllOfferrCard from "../Home/AlloffersCards";
+import AllOfferrCard from "../Home/Offers/Alloffers";
 
 type OfferType =
   | "flights"
@@ -45,6 +47,7 @@ const Offers: React.FC = () => {
       case "bank-offers":
         return <BankOfferCard />;
       case "alloffers":
+        return <AllOfferrCard />;
       default:
         return <div>All Offers</div>;
     }

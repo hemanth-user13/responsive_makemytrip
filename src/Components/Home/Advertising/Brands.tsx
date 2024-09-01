@@ -82,7 +82,7 @@ const Brands = () => {
     <div className="relative flex flex-col items-center">
       {/* Header with Title and Buttons */}
       <div className="w-full flex items-center justify-between mb-4 px-6">
-        <h3 className="font-serif font-bold text-3xl text-gray-800 my-0">
+        <h3 className="font-serif font-bold text-3xl text-gray-800 my-0 ml-8">
           Featured Brands
         </h3>
         <div className="flex space-x-2">
@@ -115,7 +115,7 @@ const Brands = () => {
           {brands.map((brand) => (
             <div
               key={brand.id}
-              className="flex-shrink-0 flex flex-row items-center p-4 border border-gray-200 rounded-md mx-2"
+              className="bg-white flex-shrink-0 flex flex-row items-center p-4 border border-slate-200 rounded-md mx-2"
               style={{ width: `${100 / visibleCards}%` }}
             >
               <img
