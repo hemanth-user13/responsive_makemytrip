@@ -1,132 +1,178 @@
 import React, { useEffect, useReducer } from "react";
 import axios from "axios";
 
-// Define types for the API response
-interface ApiResponse {
-  best_flights: Flight[];
+interface Airport {
+  name: string;
+  id: string;
+  time: string;
 }
 
 interface Flight {
-  type: string;
-  price: number;
-  total_duration: number;
-  carbon_emissions: {
-    this_flight: number;
-  };
-  flights: FlightLeg[];
-}
-
-interface FlightLeg {
-  airline: string;
-  flight_number: string;
-  departure_airport: {
-    name: string;
-    id: string;
-    time: string;
-  };
-  arrival_airport: {
-    name: string;
-    id: string;
-    time: string;
-  };
+  departure_airport: Airport;
+  arrival_airport: Airport;
   duration: number;
   airplane: string;
+  airline: string;
+  airline_logo: string;
   travel_class: string;
+  flight_number: string;
   legroom: string;
   extensions: string[];
+  often_delayed_by_over_30_min?: boolean;
+  ticket_also_sold_by?: string[];
+  overnight?: boolean;
 }
 
-// Define action types and reducer
-type Action =
-  | { type: "FETCH_SUCCESS"; payload: Flight[] }
-  | { type: "FETCH_FAILURE"; error: string };
+interface Layover {
+  duration: number;
+  name: string;
+  id: string;
+  overnight?: boolean;
+}
 
-interface State {
+interface CarbonEmissions {
+  this_flight: number;
+  typical_for_this_route: number;
+  difference_percent: number;
+}
+
+interface BestFlight {
   flights: Flight[];
-  error: string | null;
+  layovers: Layover[];
+  total_duration: number;
+  carbon_emissions: CarbonEmissions;
+  price: number;
+  type: string;
+  airline_logo: string;
+  departure_token: string;
 }
 
-const initialState: State = {
-  flights: [],
-  error: null,
+interface ApiState {
+  best_flights: BestFlight[];
+  other_flights: Flight[];
+}
+
+type ActionType =
+  | { type: "SET_FLIGHTS"; payload: BestFlight[] }
+  | { type: "SET_OTHER_FLIGHTS"; payload: Flight[] };
+
+const initialState: ApiState = {
+  best_flights: [],
+  other_flights: [],
 };
 
-const flightsReducer = (state: State, action: Action): State => {
+function reducer(state: ApiState, action: ActionType): ApiState {
   switch (action.type) {
-    case "FETCH_SUCCESS":
-      return { ...state, flights: action.payload, error: null };
-    case "FETCH_FAILURE":
-      return { ...state, error: action.error };
+    case "SET_FLIGHTS":
+      return { ...state, best_flights: action.payload };
+    case "SET_OTHER_FLIGHTS":
+      return { ...state, other_flights: action.payload };
     default:
       return state;
   }
-};
+}
 
-const FlightSearch: React.FC = () => {
-  const [state, dispatch] = useReducer(flightsReducer, initialState);
+const FlightDetails: React.FC = () => {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
-    const fetchFlights = async () => {
+    const fetchData = async () => {
       try {
-        const response = await axios.get<ApiResponse>(
-          "http://localhost:8003/flights"
-        );
-        dispatch({
-          type: "FETCH_SUCCESS",
-          payload: response.data.best_flights,
-        });
+        const response = await axios.get("http://localhost:8003/flights");
+        const { best_flights, other_flights } = response.data;
+
+        dispatch({ type: "SET_FLIGHTS", payload: best_flights });
+        dispatch({ type: "SET_OTHER_FLIGHTS", payload: other_flights });
       } catch (error) {
-        dispatch({ type: "FETCH_FAILURE", error: "Failed to fetch flights" });
+        console.error("Error fetching flight data:", error);
       }
     };
 
-    fetchFlights();
+    fetchData();
   }, []);
 
   return (
     <div>
-      <h1>Flight Search Results</h1>
-      {state.error ? (
-        <p>{state.error}</p>
-      ) : state.flights && state.flights.length > 0 ? (
-        <ul>
-          {state.flights.map((flight, index) => (
-            <li key={index}>
-              <h2>
-                {flight.type} - ${flight.price}
-              </h2>
-              <p>Total Duration: {flight.total_duration} minutes</p>
-              <p>Carbon Emissions: {flight.carbon_emissions.this_flight} kg</p>
-              {flight.flights.map((leg, legIndex) => (
-                <div key={legIndex}>
-                  <h3>
-                    {leg.airline} - {leg.flight_number}
-                  </h3>
-                  <p>
-                    {leg.departure_airport.name} ({leg.departure_airport.id}) -{" "}
-                    {leg.arrival_airport.name} ({leg.arrival_airport.id})
-                  </p>
-                  <p>Departure Time: {leg.departure_airport.time}</p>
-                  <p>Arrival Time: {leg.arrival_airport.time}</p>
-                  <p>Duration: {leg.duration} minutes</p>
-                  <p>Airplane: {leg.airplane}</p>
-                  <p>Travel Class: {leg.travel_class}</p>
-                  <p>Legroom: {leg.legroom}</p>
-                  <ul>
-                    {leg.extensions.map((ext, extIndex) => (
-                      <li key={extIndex}>{ext}</li>
-                    ))}
-                  </ul>
-                </div>
-              ))}
-            </li>
-          ))}
-        </ul>
+      <h1>Best Flights</h1>
+      {state.best_flights?.length > 0 ? (
+        state.best_flights.map((flight, index) => (
+          <div key={index}>
+            <h2>{flight.type}</h2>
+            <img src={flight.airline_logo} alt="Airline logo" />
+            <p>Price: ${flight.price}</p>
+            <p>Total Duration: {flight.total_duration} minutes</p>
+            <p>Carbon Emissions: {flight.carbon_emissions.this_flight} kg</p>
+
+            <h3>Flights:</h3>
+            {flight.flights.map((f, idx) => (
+              <div key={idx}>
+                <p>Flight Number: {f.flight_number}</p>
+                <p>Airline: {f.airline}</p>
+                <img src={f.airline_logo} alt={`${f.airline} logo`} />
+                <p>
+                  Departure: {f.departure_airport.name} at{" "}
+                  {f.departure_airport.time}
+                </p>
+                <p>
+                  Arrival: {f.arrival_airport.name} at {f.arrival_airport.time}
+                </p>
+                <p>Duration: {f.duration} minutes</p>
+                <p>Airplane: {f.airplane}</p>
+                <p>Travel Class: {f.travel_class}</p>
+                <p>Legroom: {f.legroom}</p>
+                <ul>
+                  {f.extensions.map((ext, i) => (
+                    <li key={i}>{ext}</li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+
+            <h3>Layovers:</h3>
+            {flight.layovers.map((layover, layoverIndex) => (
+              <div key={layoverIndex}>
+                <p>Layover at: {layover.name}</p>
+                <p>Duration: {layover.duration} minutes</p>
+                {layover.overnight && <p>Overnight: Yes</p>}
+              </div>
+            ))}
+          </div>
+        ))
       ) : (
-        <p>No flights available</p>
+        <p>No best flights available</p>
+      )}
+
+      <h1>Other Flights</h1>
+      {state.other_flights?.length > 0 ? (
+        state.other_flights.map((flight, index) => (
+          <div key={index}>
+            <h3>{flight.flight_number}</h3>
+            <img src={flight.airline_logo} alt="Airline logo" />
+            <p>Airline: {flight.airline}</p>
+            <p>
+              Departure: {flight.departure_airport.name} at{" "}
+              {flight.departure_airport.time}
+            </p>
+            <p>
+              Arrival: {flight.arrival_airport.name} at{" "}
+              {flight.arrival_airport.time}
+            </p>
+            <p>Duration: {flight.duration} minutes</p>
+            <p>Airplane: {flight.airplane}</p>
+            <p>Travel Class: {flight.travel_class}</p>
+            <p>Legroom: {flight.legroom}</p>
+            <ul>
+              {flight.extensions.map((ext, i) => (
+                <li key={i}>{ext}</li>
+              ))}
+            </ul>
+          </div>
+        ))
+      ) : (
+        <p>No other flights available</p>
       )}
     </div>
   );
 };
 
-export default FlightSearch;
+export default FlightDetails;
