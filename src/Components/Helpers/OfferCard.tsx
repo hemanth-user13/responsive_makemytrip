@@ -1,4 +1,5 @@
 import React from "react";
+import "./offercard.css";
 
 interface TrainBookingImageProps {
   imageSrc: string;
@@ -21,7 +22,7 @@ const TrainBookingImage: React.FC<TrainBookingImageProps> = ({
 }) => {
   return (
     <div className="flex bg-white shadow-lg rounded-lg overflow-hidden">
-      <div className="w-1/2">
+      <div className="w-60 flex items-center justify-center">
         <img
           src={imageSrc}
           alt={title}
@@ -37,11 +38,12 @@ const TrainBookingImage: React.FC<TrainBookingImageProps> = ({
         </div>
         <div className="mt-4">
           <button
-            className="bg-red-600 text-white py-2 px-4 rounded"
+            className="bg-gradient-to-r from-red-500 to-red-700 text-white py-2 px-4 rounded transition-transform transform hover:scale-105 hover:shadow-lg focus:outline-none"
             onClick={onButtonClick}
           >
             {buttonText}
           </button>
+
           <p className="text-xs text-gray-400 mt-2">{termsText}</p>
         </div>
       </div>
